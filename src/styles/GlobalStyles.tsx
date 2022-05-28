@@ -14,6 +14,14 @@ const GlobalStyles = () => {
         *::after {
           box-sizing: border-box;
         }
+
+        button {
+          background: transparent;
+          border: 0;
+          cursor: pointer;
+          padding: 0;
+        }
+
         body {
           font-size: 15px;
           line-height: 1.5;

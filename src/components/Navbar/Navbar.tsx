@@ -2,16 +2,25 @@ import { Box, List } from '@mui/material'
 import logo from '../../img/logo.png'
 import { useTheme } from '@emotion/react'
 import NavbarItem from './NavbarItem'
-import CallIcon from '@mui/icons-material/Call'
-import MailOutlineIcon from '@mui/icons-material/MailOutline'
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
-import ArticleIcon from '@mui/icons-material/Article'
-import SettingsIcon from '@mui/icons-material/Settings'
 import AddButton from '../common/buttons/AddButton/AddButton'
 import PayButton from '../common/buttons/PayButton/PayButton'
+import { useEffect, useState } from 'react'
+import { $api } from '../../http'
 
 const Navbar = () => {
   const { colors } = useTheme()
+  const [menu, setMenu] = useState([])
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const { data } = await $api.post('partnership/getMenu')
+        setMenu(data)
+      } catch (e) {
+        console.log(e)
+      }
+    })()
+  }, [])
 
   return (
     <Box
@@ -25,27 +34,16 @@ const Navbar = () => {
         <img src={logo} alt={''} />
       </Box>
       <List sx={{ marginBottom: '64px' }} disablePadding>
-        <NavbarItem
-          icon={<MailOutlineIcon />}
-          text={'Сообщения'}
-          routePath={'messages'}
-        />
-        <NavbarItem icon={<CallIcon />} text={'Звонки'} routePath={'calls'} />
-        <NavbarItem
-          icon={<PeopleAltIcon />}
-          text={'Контрагенты'}
-          routePath={'counterparties'}
-        />
-        <NavbarItem
-          icon={<ArticleIcon />}
-          text={'Документы'}
-          routePath={'documents'}
-        />
-        <NavbarItem
-          icon={<SettingsIcon />}
-          text={'Настройки'}
-          routePath={'settings'}
-        />
+        {menu &&
+          menu.map((item: any, i: number) => (
+            <NavbarItem
+              key={i}
+              text={item.name}
+              submenu={item?.submenu}
+              isNew={item.isNew}
+              routePath={item.url}
+            />
+          ))}
       </List>
       <Box
         sx={{

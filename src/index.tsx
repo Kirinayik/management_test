@@ -10,14 +10,12 @@ import GlobalStyles from './styles/GlobalStyles'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <MUIProvider theme={MUITheme}>
-        <ThemeProvider theme={theme}>
-          <GlobalStyles />
-          <App />
-        </ThemeProvider>
-      </MUIProvider>
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <MUIProvider theme={MUITheme}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <App />
+      </ThemeProvider>
+    </MUIProvider>
+  </Provider>
 )

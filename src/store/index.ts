@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import testReducer from './test/test'
+import callsReducer from './calls/callsState'
 
 export const store = configureStore({
   reducer: {
-    test: testReducer,
+    calls: callsReducer,
   },
 })
 
