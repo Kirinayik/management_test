@@ -1,13 +1,16 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent } from 'react'
 import { Box } from '@mui/material'
 import { CallsFilterSearchInput } from '../Calls.styles'
 import SearchIcon from '@mui/icons-material/Search'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { setSearchInput } from '../../../store/search/searchState'
 
 const CallsFilterSearch = () => {
-  const [inputSearch, setInputSearch] = useState('')
+  const dispatch = useAppDispatch()
+  const searchInput = useAppSelector((state) => state.search.filters.search)
 
   const handleSetInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputSearch(e.target.value)
+    dispatch(setSearchInput(e.target.value))
   }
   return (
     <Box
@@ -19,7 +22,7 @@ const CallsFilterSearch = () => {
       }}
     >
       <CallsFilterSearchInput
-        value={inputSearch}
+        value={searchInput}
         onChange={handleSetInputSearch}
         placeholder={'Поиск по звонкам'}
       />

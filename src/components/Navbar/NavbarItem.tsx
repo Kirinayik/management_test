@@ -1,22 +1,25 @@
-import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import {
+  Collapse,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material'
 import { NavbarListItem } from './Navbar.styles'
 import { useLocation } from 'react-router-dom'
 import useMenuIcon from '../../hooks/useMenuIcon'
 import { useState } from 'react'
+import { IMenu } from '../../types/types'
+
+interface NavbarItemProps {
+  item: IMenu
+  isSubItem?: boolean
+}
 
 const NavbarItem = ({
-  text,
-  routePath,
-  submenu,
+  item: { submenu, is_new: isNew, url: routePath, name: text },
   isSubItem,
-  isNew,
-}: {
-  text: string
-  submenu: any | null
-  isSubItem?: boolean
-  isNew: boolean
-  routePath: string
-}) => {
+}: NavbarItemProps) => {
   const currentUrl = useLocation().pathname.split('/')[1]
   const icon = useMenuIcon(text)
   const [open, setOpen] = useState(false)
@@ -52,15 +55,8 @@ const NavbarItem = ({
       {submenu && (
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {submenu.map((item: any, i: number) => (
-              <NavbarItem
-                isNew={item.isNew}
-                key={i}
-                text={item.name}
-                submenu={null}
-                routePath={item.url}
-                isSubItem={true}
-              />
+            {submenu.map((item, i) => (
+              <NavbarItem key={i} item={item} isSubItem={true} />
             ))}
           </List>
         </Collapse>

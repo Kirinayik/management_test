@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import callsReducer from './calls/callsState'
+import searchReducer from './search/searchState'
 
 export const store = configureStore({
   reducer: {
     calls: callsReducer,
+    search: searchReducer,
   },
 })
 

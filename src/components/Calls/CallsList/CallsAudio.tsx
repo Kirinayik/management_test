@@ -4,18 +4,15 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import PauseIcon from '@mui/icons-material/Pause'
 import { formatTime } from '../../../helpers/formatTime'
 import { useRecordPlayer } from '../../../hooks/useRecordPlayer'
+import { FC } from 'react'
 
-const CallsAudio = ({
-  isActive,
-  recordId,
-  partnerId,
-  id,
-}: {
+type CallsAudioProps = {
   recordId: string
   partnerId: string
-  isActive: boolean
   id: number
-}) => {
+}
+
+const CallsAudio: FC<CallsAudioProps> = ({ recordId, partnerId, id }) => {
   const {
     duration,
     handleSetDuration,
@@ -29,7 +26,6 @@ const CallsAudio = ({
     isPlay,
     recordUrl,
   } = useRecordPlayer(recordId, partnerId, id)
-
   const valuetext = (value: number) => {
     return formatTime(value)
   }
@@ -44,7 +40,6 @@ const CallsAudio = ({
         onLoadedData={handleSetDuration}
       />
       <Box
-        onClick={(e: any) => e.stopPropagation()}
         className={!isPlay ? 'calls__audio' : ''}
         sx={{
           position: 'absolute',
@@ -94,7 +89,7 @@ const CallsAudio = ({
             step={0.1}
             size="small"
             sx={{ width: '160px' }}
-            disabled={!isActive}
+            disabled={!isPlay}
           />
           {isPlay && (
             <IconButton

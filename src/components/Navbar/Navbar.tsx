@@ -6,10 +6,11 @@ import AddButton from '../common/buttons/AddButton/AddButton'
 import PayButton from '../common/buttons/PayButton/PayButton'
 import { useEffect, useState } from 'react'
 import { $api } from '../../http'
+import { IMenu } from '../../types/types'
 
 const Navbar = () => {
   const { colors } = useTheme()
-  const [menu, setMenu] = useState([])
+  const [menu, setMenu] = useState<IMenu[]>([])
 
   useEffect(() => {
     ;(async () => {
@@ -34,16 +35,7 @@ const Navbar = () => {
         <img src={logo} alt={''} />
       </Box>
       <List sx={{ marginBottom: '64px' }} disablePadding>
-        {menu &&
-          menu.map((item: any, i: number) => (
-            <NavbarItem
-              key={i}
-              text={item.name}
-              submenu={item?.submenu}
-              isNew={item.isNew}
-              routePath={item.url}
-            />
-          ))}
+        {menu && menu.map((item, i) => <NavbarItem key={i} item={item} />)}
       </List>
       <Box
         sx={{

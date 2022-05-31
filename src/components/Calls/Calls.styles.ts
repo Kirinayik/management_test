@@ -5,6 +5,10 @@ type CallsListItemContainerProps = {
   isActive: boolean
 }
 
+type CallsFilterSelectButtonItemProps = {
+  isActive: boolean
+}
+
 export const CallsFilterSelectButton = styled(Select)`
   font-style: normal;
   max-width: 200px;
@@ -18,8 +22,9 @@ export const CallsFilterSelectButton = styled(Select)`
   }
 `
 
-export const CallsFilterSelectButtonItem = styled.div`
-  color: ${(props) => props.theme.colors.secondary};
+export const CallsFilterSelectButtonItem = styled.div<CallsFilterSelectButtonItemProps>`
+  color: ${(props) =>
+    props.isActive ? props.theme.colors.accent : props.theme.colors.secondary};
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

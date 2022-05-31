@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { useEffect, useRef, useState } from 'react'
-import { $api } from '../http'
+import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 import { setCurrentCall } from '../store/calls/callsState'
+import { $api } from '../http'
 
 export const useRecordPlayer = (
   recordId: string,
@@ -15,7 +15,7 @@ export const useRecordPlayer = (
   const [duration, setDuration] = useState(1)
   const [isPlay, setIsPlay] = useState(false)
   const [recordUrl, setRecordUrl] = useState('')
-  const audioRef = useRef(null)
+  const audioRef = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
     if (recordId && partnerId) {
@@ -44,22 +44,18 @@ export const useRecordPlayer = (
       setIsPlay(false)
 
       if (audioRef.current) {
-        // @ts-ignore
         audioRef.current.load()
       }
     }
   }, [isActive, audioRef.current])
 
-  const handleSetIsPlay = (e: any) => {
-    e.stopPropagation()
+  const handleSetIsPlay = () => {
     if (isPlay) {
       setIsPlay(false)
-      // @ts-ignore
-      audioRef.current.pause()
+      audioRef.current?.pause()
     } else {
       setIsPlay(true)
-      // @ts-ignore
-      audioRef.current.play()
+      audioRef.current?.play()
 
       if (!isActive) {
         dispatch(setCurrentCall(id))
@@ -67,23 +63,23 @@ export const useRecordPlayer = (
     }
   }
 
-  const handleGetCurrentTime = (e: any) => {
+  const handleGetCurrentTime = (e: SyntheticEvent<HTMLAudioElement>) => {
     const currentTime = e.currentTarget.currentTime.toFixed(2)
     setSliderValue(+currentTime)
   }
 
-  const handleSetDuration = (e: any) => {
+  const handleSetDuration = (e: SyntheticEvent<HTMLAudioElement>) => {
     setDuration(+e.currentTarget.duration.toFixed(2))
   }
 
   const handleSliderChange = (e: Event, newValue: number | number[]) => {
-    // @ts-ignore
-    audioRef.current.currentTime = newValue
+    if (audioRef.current && 'currentTime' in audioRef.current) {
+      audioRef.current.currentTime = newValue as number
+    }
     setSliderValue(newValue as number)
   }
 
-  const handleClosePlay = (e: any) => {
-    e.stopPropagation()
+  const handleClosePlay = () => {
     setIsPlay(false)
     dispatch(setCurrentCall(0))
   }

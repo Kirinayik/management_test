@@ -18,12 +18,10 @@ const CallsFilter = () => {
       }}
     >
       <CallsFilterSearch />
-      <CallsFilterSelect type={'callTypes'} />
-      <CallsFilterSelect type={'workers'} />
-      <CallsFilterSelect type={'calls'} />
-      <CallsFilterSelect type={'sources'} />
-      <CallsFilterSelect type={'ratings'} />
-      <CallsFilterSelect type={'errors'} />
+      <CallsFilterSelect type={'in_out'} />
+      <CallsFilterSelect type={'from_type[]'} />
+      <CallsFilterSelect type={'sources[]'} />
+      <CallsFilterSelect type={'errors[]'} />
     </Box>
   )
 }

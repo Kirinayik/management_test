@@ -1,18 +1,22 @@
-import { Box } from '@mui/material'
-import { useState } from 'react'
+import { Box, IconButton } from '@mui/material'
 import { useTheme } from '@emotion/react'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { declOfNum } from '../../../helpers/declOfNum'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { setDayStart } from '../../../store/search/searchState'
 
 const CallsSettingDate = () => {
-  const [days, setDays] = useState(1)
+  const dispatch = useAppDispatch()
+  const { date_start: days } = useAppSelector((state) => state.search.filters)
   const { colors } = useTheme()
 
-  const handleAddDays = () => setDays(days + 1)
+  const handleAddDays = () => {
+    if (days < 6) dispatch(setDayStart(days + 1))
+  }
   const handleDelDays = () => {
-    if (days > 1) setDays(days - 1)
+    if (days > 1) dispatch(setDayStart(days - 1))
   }
 
   return (
@@ -28,19 +32,22 @@ const CallsSettingDate = () => {
         position: 'relative',
       }}
     >
-      <Box
+      <IconButton
+        disableRipple
+        disabled={days === 1}
         onClick={handleDelDays}
-        component={'button'}
         sx={{
           position: 'absolute',
           top: '50%',
           left: 0,
           transform: 'translateY(-50%)',
           height: '18px',
+          color: colors.primary,
+          padding: '0',
         }}
       >
         <ChevronLeftIcon sx={{ fontSize: '18px' }} />
-      </Box>
+      </IconButton>
       <CalendarTodayIcon sx={{ fontSize: '16px' }} />
       <Box
         sx={{
@@ -52,7 +59,9 @@ const CallsSettingDate = () => {
       >
         {days} {declOfNum(days)}
       </Box>
-      <Box
+      <IconButton
+        disableRipple
+        disabled={days === 6}
         onClick={handleAddDays}
         component={'button'}
         sx={{
@@ -61,10 +70,12 @@ const CallsSettingDate = () => {
           right: 0,
           transform: 'translateY(-50%)',
           height: '18px',
+          padding: '0',
+          color: colors.primary,
         }}
       >
         <ChevronRightIcon sx={{ fontSize: '18px' }} />
-      </Box>
+      </IconButton>
     </Box>
   )
 }

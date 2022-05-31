@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
 import { Box } from '@mui/material'
-import Calls from './components/Calls/Calls'
+import Calls from './components/Pages/Calls'
 
 function App() {
   return (

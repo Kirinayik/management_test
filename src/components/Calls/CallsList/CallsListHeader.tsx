@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import { useTheme } from '@emotion/react'
+import { memo } from 'react'
 
 const CallsListHeader = () => {
   const { colors } = useTheme()
@@ -37,4 +38,4 @@ const CallsListHeader = () => {
   )
 }
 
-export default CallsListHeader
+export default memo(CallsListHeader)
