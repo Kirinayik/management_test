@@ -1,16 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { getDefaultDate } from '../../helpers/getDefaultDate'
+import { SearchFilter } from '../../types/types'
 
 interface ISearchState {
-  filters: {
-    in_out: string
-    search: string
-    'from_type[]': string
-    'sources[]': string
-    'errors[]': string
-    date_start: number
-  }
-  url: string
+  filters: SearchFilter
   offset: number
 }
 
@@ -23,7 +15,6 @@ const initialState: ISearchState = {
     'errors[]': '',
     date_start: 1,
   },
-  url: 'mango/getList?',
   offset: 25,
 }
 
@@ -33,28 +24,6 @@ export const searchSlice = createSlice({
   reducers: {
     setDayStart: (state, action: PayloadAction<number>) => {
       state.filters.date_start = action.payload
-    },
-    generateUrl: (state) => {
-      const defaultUrl = 'mango/getList?'
-      const concatUrl: string[] = []
-      const dateStart = new Date(
-        new Date().getTime() - state.filters.date_start * 24 * 3600 * 1000
-      )
-        .toISOString()
-        .split('T')[0]
-      const { dateEnd } = getDefaultDate()
-      concatUrl.push('date_start=' + dateStart + '&date_end=' + dateEnd)
-
-      for (const key in state.filters) {
-        // @ts-ignore
-        if (state.filters[key] && key !== 'date_start') {
-          // @ts-ignore
-          concatUrl.push(`${key}=${state.filters[key]}`)
-        }
-      }
-
-      state.url = defaultUrl + concatUrl.join('&') + '&limit=25'
-      state.offset = 25
     },
     setFilterSelect: (
       state,
@@ -67,17 +36,12 @@ export const searchSlice = createSlice({
     setSearchInput: (state, action: PayloadAction<string>) => {
       state.filters.search = action.payload
     },
-    setOffset: (state) => {
-      state.offset += 25
+    setOffset: (state, action: PayloadAction<number>) => {
+      state.offset += action.payload
     },
   },
 })
 
-export const {
-  setDayStart,
-  generateUrl,
-  setFilterSelect,
-  setSearchInput,
-  setOffset,
-} = searchSlice.actions
+export const { setDayStart, setFilterSelect, setSearchInput, setOffset } =
+  searchSlice.actions
 export default searchSlice.reducer

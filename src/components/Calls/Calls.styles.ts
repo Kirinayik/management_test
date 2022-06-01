@@ -11,14 +11,23 @@ type CallsFilterSelectButtonItemProps = {
 
 export const CallsFilterSelectButton = styled(Select)`
   font-style: normal;
-  max-width: 200px;
+  width: 180px;
   overflow: hidden;
   & > div {
-    padding: 0;
+    padding: 0 18px 0 0 !important;
+  }
+
+  & > svg {
+    font-size: 24px;
   }
 
   & fieldset {
     border: 0;
+  }
+
+  & .MuiSvgIcon-root {
+    font-size: 18px;
+    right: 0;
   }
 `
 
@@ -28,6 +37,7 @@ export const CallsFilterSelectButtonItem = styled.div<CallsFilterSelectButtonIte
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  padding: 0;
   &:first-letter {
     text-transform: uppercase;
   }

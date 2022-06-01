@@ -11,17 +11,19 @@ const CallsFilter = () => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: '32px',
+        gap: '20px',
         padding: '20px 0',
         color: colors.secondary,
         fontSize: '14px',
       }}
     >
       <CallsFilterSearch />
-      <CallsFilterSelect type={'in_out'} />
-      <CallsFilterSelect type={'from_type[]'} />
-      <CallsFilterSelect type={'sources[]'} />
-      <CallsFilterSelect type={'errors[]'} />
+      <Box sx={{ display: 'flex', gap: '32px' }}>
+        <CallsFilterSelect type={'in_out'} />
+        <CallsFilterSelect type={'from_type[]'} />
+        <CallsFilterSelect type={'sources[]'} />
+        <CallsFilterSelect type={'errors[]'} />
+      </Box>
     </Box>
   )
 }

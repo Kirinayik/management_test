@@ -27,7 +27,7 @@ const CallsFilterSelect = ({ type }: { type: string }) => {
         PaperProps: { sx: { maxHeight: '250px' } },
       }}
     >
-      <MenuItem value="" sx={{ width: '180px' }}>
+      <MenuItem value="" sx={{ width: '170px' }}>
         <CallsFilterSelectButtonItem isActive={false}>
           {defaultValue}
         </CallsFilterSelectButtonItem>

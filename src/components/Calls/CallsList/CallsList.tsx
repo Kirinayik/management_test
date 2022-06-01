@@ -11,38 +11,40 @@ import {
   updateList,
 } from '../../../store/calls/callsState'
 import { useDispatch } from 'react-redux'
-import SearchButton from '../../common/buttons/SearchButton/SearchButton'
-import { getDefaultDate } from '../../../helpers/getDefaultDate'
 import InfiniteScroll from 'react-infinite-scroller'
 import { callsNext } from '../../../helpers/callsNext'
 import { setOffset } from '../../../store/search/searchState'
 import Loader from '../../common/Loader'
+import { generateUrl } from '../../../helpers/generateUrl'
 
 const CallsList = () => {
   const { colors } = useTheme()
-  const { url, offset } = useAppSelector((state) => state.search)
+  const { offset, filters } = useAppSelector((state) => state.search)
   const list = useAppSelector(callsSelectors.selectAll)
   const { total } = useAppSelector((state) => state.calls)
   const dispatch = useDispatch()
   const [fetching, setFetching] = useState(false)
+  const [url, setUrl] = useState(generateUrl(filters))
+
+  useEffect(() => {
+    setUrl(generateUrl(filters))
+  }, [filters])
 
   useEffect(() => {
     ;(async () => {
       setFetching(true)
-      const { dateStart, dateEnd } = getDefaultDate()
 
       try {
-        const { data } = await $api.post(
-          `mango/getList?date_start=${dateStart}&date_end=${dateEnd}&limit=25`
-        )
+        const { data } = await $api.post(url)
         dispatch(setList(data))
+        dispatch(setOffset(-offset + 25))
       } catch (e) {
         console.log(e)
       } finally {
         setFetching(false)
       }
     })()
-  }, [])
+  }, [url])
 
   const fetchItems = async () => {
     if (fetching) return
@@ -51,7 +53,7 @@ const CallsList = () => {
     try {
       const { results } = await callsNext(url, offset)
       dispatch(updateList(results))
-      dispatch(setOffset())
+      dispatch(setOffset(25))
     } catch (e) {
       console.log(e)
     } finally {
@@ -82,7 +84,6 @@ const CallsList = () => {
             list.map((item) => <CallsListItem item={item} key={item.id} />)}
         </List>
       </InfiniteScroll>
-      <SearchButton />
     </Box>
   )
 }
