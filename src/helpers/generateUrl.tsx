@@ -3,13 +3,8 @@ import { getDefaultDate } from './getDefaultDate'
 export const generateUrl = (filters: any) => {
   const defaultUrl = 'mango/getList?'
   const concatUrl: string[] = []
-  const dateStart = new Date(
-    new Date().getTime() - filters.date_start * 24 * 3600 * 1000
-  )
-    .toISOString()
-    .split('T')[0]
   const { dateEnd } = getDefaultDate()
-  concatUrl.push('date_start=' + dateStart + '&date_end=' + dateEnd)
+  concatUrl.push('date_start=' + filters.date_start + '&date_end=' + dateEnd)
 
   for (const key in filters) {
     if (Array.isArray(filters[key])) {

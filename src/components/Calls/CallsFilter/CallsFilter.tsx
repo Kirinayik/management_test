@@ -6,7 +6,6 @@ import CallsFilterSelectMultiple from './CallsFilterSelectMultiple'
 
 const CallsFilter = () => {
   const { colors } = useTheme()
-  const selectTypes = ['in_out', 'from_type[]', 'sources[]', 'errors[]']
 
   return (
     <Box
@@ -21,13 +20,10 @@ const CallsFilter = () => {
     >
       <CallsFilterSearch />
       <Box sx={{ display: 'flex', gap: '32px' }}>
-        {selectTypes.map((type, i) =>
-          type === 'in_out' ? (
-            <CallsFilterSelect type={type} key={i} />
-          ) : (
-            <CallsFilterSelectMultiple type={type} key={i} />
-          )
-        )}
+        <CallsFilterSelect type={'in_out'} />
+        <CallsFilterSelectMultiple type={'from_type[]'} />
+        <CallsFilterSelectMultiple type={'sources[]'} />
+        <CallsFilterSelectMultiple type={'errors[]'} />
       </Box>
     </Box>
   )

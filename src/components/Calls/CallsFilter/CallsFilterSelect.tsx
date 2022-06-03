@@ -1,6 +1,9 @@
 import { Box } from '@mui/material'
 import { FC, MouseEvent, useEffect, useRef, useState } from 'react'
-import { CallsFilterSelectContainer, CallsFilterSelectItem } from '../Calls.styles'
+import {
+  CallsFilterSelectContainer,
+  CallsFilterSelectItem,
+} from '../Calls.styles'
 import { useCallsFilter } from '../../../hooks/useCallsFilter'
 import { useAppDispatch } from '../../../store/hooks'
 import { setFilterSelect } from '../../../store/search/searchState'
@@ -25,6 +28,7 @@ const CallsFilterSelect: FC<CallsFilterSelectProps> = ({ type }) => {
     value: '',
   })
   const wrapperRef = useRef<any>(null)
+  const isMounted = useRef(false)
 
   useEffect(() => {
     const checkIfClickedOutside = (e: globalThis.MouseEvent) => {
@@ -62,7 +66,11 @@ const CallsFilterSelect: FC<CallsFilterSelectProps> = ({ type }) => {
   }
 
   useEffect(() => {
-    dispatch(setFilterSelect({ type, value: selectValue.value }))
+    if (isMounted.current) {
+      dispatch(setFilterSelect({ type, value: selectValue.value }))
+    } else {
+      isMounted.current = true
+    }
   }, [selectValue])
 
   return (
@@ -100,6 +108,7 @@ const CallsFilterSelect: FC<CallsFilterSelectProps> = ({ type }) => {
             {...{ 'data-value': '', 'data-name': defaultValue }}
             onClick={handleSetFilterSelect}
             isActive={selectValue.name === defaultValue}
+            key={0}
           >
             <Box>{defaultValue}</Box>
           </CallsFilterSelectItem>
@@ -107,7 +116,7 @@ const CallsFilterSelect: FC<CallsFilterSelectProps> = ({ type }) => {
             <CallsFilterSelectItem
               {...{ 'data-value': item.value, 'data-name': item.name }}
               onClick={handleSetFilterSelect}
-              key={i}
+              key={i + 1}
               isActive={selectValue.name === item.name}
             >
               <Box>{item.name}</Box>

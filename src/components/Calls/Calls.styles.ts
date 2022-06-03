@@ -12,6 +12,11 @@ type CheckboxProps = {
   checked: boolean
 }
 
+type CallsCalendarButtonProps = {
+  isToday: boolean
+  isActive: boolean
+}
+
 export const CheckboxContainer = styled.div<CheckboxProps>`
   display: inline-block;
   vertical-align: middle;
@@ -143,6 +148,65 @@ export const CallsListItemContainer = styled.li<CallsListItemContainerProps>`
 
     & .calls__time {
       visibility: hidden;
+    }
+  }
+`
+
+export const CallsCalendarInfo = styled.div`
+  cursor: pointer;
+  display: flex;
+  min-width: 100px;
+  color: ${(props) => props.theme.colors.accent};
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+`
+
+export const CallsCalendarContainer = styled.div`
+  position: absolute;
+  top: 40px;
+  left: -200px;
+  padding: 15px;
+  width: 300px;
+  min-height: 350px;
+  z-index: 1001;
+  cursor: auto;
+  border-radius: 4px;
+  background: ${(props) => props.theme.colors.white};
+  box-shadow: 0 0 26px 6px rgba(233, 237, 243, 1);
+`
+
+export const CallsCalendarButton = styled.button<CallsCalendarButtonProps>`
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 18px;
+  background-color: ${(props) =>
+    props.isToday
+      ? props.theme.colors.accent
+      : props.isActive
+      ? props.theme.colors['accent-hover']
+      : 'transparent'};
+  color: ${(props) =>
+    props.isToday || props.isActive ? props.theme.colors.white : 'inherit'};
+
+  &:hover {
+    background-color: ${(props) =>
+      props.isToday
+        ? props.theme.colors.accent
+        : props.theme.colors['accent-hover']};
+    color: ${(props) => props.theme.colors.white};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    &:hover {
+      background-color: transparent;
+      color: inherit;
     }
   }
 `

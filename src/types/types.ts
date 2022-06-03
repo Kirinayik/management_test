@@ -28,5 +28,5 @@ export type SearchFilter = {
   'from_type[]': string[]
   'sources[]': string[]
   'errors[]': string[]
-  date_start: number
+  date_start: string
 }

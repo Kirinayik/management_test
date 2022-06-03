@@ -6,7 +6,10 @@ import { setFilterSelect } from '../../../store/search/searchState'
 import { Box } from '@mui/material'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import { CallsFilterSelectContainer, CallsFilterSelectItem } from '../Calls.styles'
+import {
+  CallsFilterSelectContainer,
+  CallsFilterSelectItem,
+} from '../Calls.styles'
 import { CallsFilterSelectProps } from './CallsFilterSelect'
 import CallsSelectCheckbox from './CallsSelectCheckbox'
 
@@ -19,6 +22,7 @@ const CallsFilterSelectMultiple: FC<CallsFilterSelectProps> = ({ type }) => {
   >([])
   const [isOpen, setIsOpen] = useState(false)
   const wrapperRef = useRef<any>(null)
+  const isMounted = useRef(false)
 
   useEffect(() => {
     const checkIfClickedOutside = (e: globalThis.MouseEvent) => {
@@ -62,9 +66,13 @@ const CallsFilterSelectMultiple: FC<CallsFilterSelectProps> = ({ type }) => {
   }
 
   useEffect(() => {
-    dispatch(
-      setFilterSelect({ type, value: selectValue.map((el) => el.value) })
-    )
+    if (isMounted.current) {
+      dispatch(
+        setFilterSelect({ type, value: selectValue.map((el) => el.value) })
+      )
+    } else {
+      isMounted.current = true
+    }
   }, [selectValue])
 
   return (

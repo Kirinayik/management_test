@@ -1,4 +1,10 @@
-import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import {
+  Collapse,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material'
 import { NavbarListItem } from './Navbar.styles'
 import { useLocation } from 'react-router-dom'
 import useMenuIcon from '../../hooks/useMenuIcon'

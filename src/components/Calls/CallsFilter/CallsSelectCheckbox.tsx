@@ -1,5 +1,9 @@
 import { FC } from 'react'
-import { CheckboxContainer, HiddenCheckbox, StyledCheckbox } from '../Calls.styles'
+import {
+  CheckboxContainer,
+  HiddenCheckbox,
+  StyledCheckbox,
+} from '../Calls.styles'
 import CheckIcon from '@mui/icons-material/Check'
 
 type CallsSelectCheckboxProps = {

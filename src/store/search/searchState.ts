@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { SearchFilter } from '../../types/types'
+import { getDefaultDate } from '../../helpers/getDefaultDate'
 
 interface ISearchState {
   filters: SearchFilter
@@ -13,7 +14,7 @@ const initialState: ISearchState = {
     'from_type[]': [],
     'sources[]': [],
     'errors[]': [],
-    date_start: 1,
+    date_start: getDefaultDate().dateStart,
   },
   offset: 25,
 }
@@ -22,7 +23,7 @@ export const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    setDayStart: (state, action: PayloadAction<number>) => {
+    setDayStart: (state, action: PayloadAction<string>) => {
       state.filters.date_start = action.payload
     },
     setFilterSelect: (
@@ -42,6 +43,10 @@ export const searchSlice = createSlice({
   },
 })
 
-export const { setDayStart, setFilterSelect, setSearchInput, setOffset } =
-  searchSlice.actions
+export const {
+  setDayStart,
+  setFilterSelect,
+  setSearchInput,
+  setOffset,
+} = searchSlice.actions
 export default searchSlice.reducer

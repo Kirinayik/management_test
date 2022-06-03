@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Box, debounce } from '@mui/material'
 import { CallsFilterSearchInput } from '../Calls.styles'
 import SearchIcon from '@mui/icons-material/Search'
@@ -7,11 +7,16 @@ import { setSearchInput } from '../../../store/search/searchState'
 
 const CallsFilterSearch = () => {
   const dispatch = useAppDispatch()
-  const [input, setInput] = useState('');
-  const debounceSearch = debounce(() => dispatch(setSearchInput(input)), 300);
+  const [input, setInput] = useState('')
+  const debounceSearch = debounce(() => dispatch(setSearchInput(input)), 300)
+  const isMounted = useRef(false)
 
   useEffect(() => {
-    debounceSearch()
+    if (isMounted.current) {
+      debounceSearch()
+    } else {
+      isMounted.current = true
+    }
   }, [input])
 
   const handleSetInput = (e: ChangeEvent<HTMLInputElement>) => {
