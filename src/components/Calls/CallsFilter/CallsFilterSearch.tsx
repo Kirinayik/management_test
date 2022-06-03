@@ -1,17 +1,23 @@
-import { ChangeEvent } from 'react'
-import { Box } from '@mui/material'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { Box, debounce } from '@mui/material'
 import { CallsFilterSearchInput } from '../Calls.styles'
 import SearchIcon from '@mui/icons-material/Search'
-import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { useAppDispatch } from '../../../store/hooks'
 import { setSearchInput } from '../../../store/search/searchState'
 
 const CallsFilterSearch = () => {
   const dispatch = useAppDispatch()
-  const searchInput = useAppSelector((state) => state.search.filters.search)
+  const [input, setInput] = useState('');
+  const debounceSearch = debounce(() => dispatch(setSearchInput(input)), 300);
 
-  const handleSetInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchInput(e.target.value))
+  useEffect(() => {
+    debounceSearch()
+  }, [input])
+
+  const handleSetInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value)
   }
+
   return (
     <Box
       sx={{
@@ -22,8 +28,8 @@ const CallsFilterSearch = () => {
       }}
     >
       <CallsFilterSearchInput
-        value={searchInput}
-        onChange={handleSetInputSearch}
+        value={input}
+        onChange={handleSetInput}
         placeholder={'Поиск по звонкам'}
       />
       <SearchIcon

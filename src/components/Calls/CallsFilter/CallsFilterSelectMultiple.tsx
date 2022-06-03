@@ -1,29 +1,23 @@
-import { Box } from '@mui/material'
-import { FC, MouseEvent, useEffect, useRef, useState } from 'react'
-import { CallsFilterSelectContainer, CallsFilterSelectItem } from '../Calls.styles'
-import { useCallsFilter } from '../../../hooks/useCallsFilter'
-import { useAppDispatch } from '../../../store/hooks'
-import { setFilterSelect } from '../../../store/search/searchState'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import { useTheme } from '@emotion/react'
+import { useAppDispatch } from '../../../store/hooks'
+import { useCallsFilter } from '../../../hooks/useCallsFilter'
+import { FC, MouseEvent, useEffect, useRef, useState } from 'react'
+import { setFilterSelect } from '../../../store/search/searchState'
+import { Box } from '@mui/material'
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import { CallsFilterSelectContainer, CallsFilterSelectItem } from '../Calls.styles'
+import { CallsFilterSelectProps } from './CallsFilterSelect'
+import CallsSelectCheckbox from './CallsSelectCheckbox'
 
-export type CallsFilterSelectProps = {
-  type: string
-}
-
-const CallsFilterSelect: FC<CallsFilterSelectProps> = ({ type }) => {
-  const [isOpen, setIsOpen] = useState(false)
+const CallsFilterSelectMultiple: FC<CallsFilterSelectProps> = ({ type }) => {
   const { colors } = useTheme()
   const dispatch = useAppDispatch()
   const { items: selectItems, defaultValue } = useCallsFilter(type)
-  const [selectValue, setSelectValue] = useState<{
-    name: string
-    value: string
-  }>({
-    name: defaultValue,
-    value: '',
-  })
+  const [selectValue, setSelectValue] = useState<
+    { name: string; value: string }[]
+  >([])
+  const [isOpen, setIsOpen] = useState(false)
   const wrapperRef = useRef<any>(null)
 
   useEffect(() => {
@@ -55,14 +49,22 @@ const CallsFilterSelect: FC<CallsFilterSelectProps> = ({ type }) => {
   const handleSetFilterSelect = (e: MouseEvent<HTMLLIElement>) => {
     const value = e.currentTarget.getAttribute('data-value') as string
     const name = e.currentTarget.getAttribute('data-name') as string
+    if (selectValue.filter((el) => el.name === name)[0]) {
+      setSelectValue(selectValue.filter((el) => el.name !== name))
+    } else {
+      setSelectValue([...selectValue, { name, value }])
+    }
+  }
 
-    if (selectValue.value !== value) setSelectValue({ value, name })
-
-    setIsOpen(false)
+  const handleSetFilterSelectDefault = () => {
+    if (selectValue.length > 0) setSelectValue([])
+    handleOpenSelect()
   }
 
   useEffect(() => {
-    dispatch(setFilterSelect({ type, value: selectValue.value }))
+    dispatch(
+      setFilterSelect({ type, value: selectValue.map((el) => el.value) })
+    )
   }, [selectValue])
 
   return (
@@ -84,22 +86,20 @@ const CallsFilterSelect: FC<CallsFilterSelectProps> = ({ type }) => {
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            color:
-              selectValue.name === defaultValue
-                ? colors.secondary
-                : colors.accent,
+            color: selectValue.length === 0 ? 'inherit' : colors.accent,
           }}
         >
-          {selectValue.name}
+          {selectValue.length === 0
+            ? defaultValue
+            : selectValue.map((el) => el.name).join(', ')}
         </Box>
         {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
       </Box>
       {isOpen && (
         <CallsFilterSelectContainer>
           <CallsFilterSelectItem
-            {...{ 'data-value': '', 'data-name': defaultValue }}
-            onClick={handleSetFilterSelect}
-            isActive={selectValue.name === defaultValue}
+            onClick={handleSetFilterSelectDefault}
+            isActive={selectValue.length === 0}
           >
             <Box>{defaultValue}</Box>
           </CallsFilterSelectItem>
@@ -108,8 +108,11 @@ const CallsFilterSelect: FC<CallsFilterSelectProps> = ({ type }) => {
               {...{ 'data-value': item.value, 'data-name': item.name }}
               onClick={handleSetFilterSelect}
               key={i}
-              isActive={selectValue.name === item.name}
+              isActive={!!selectValue.filter((el) => el.name === item.name)[0]}
             >
+              <CallsSelectCheckbox
+                checked={!!selectValue.filter((el) => el.name === item.name)[0]}
+              />
               <Box>{item.name}</Box>
             </CallsFilterSelectItem>
           ))}
@@ -119,4 +122,4 @@ const CallsFilterSelect: FC<CallsFilterSelectProps> = ({ type }) => {
   )
 }
 
-export default CallsFilterSelect
+export default CallsFilterSelectMultiple

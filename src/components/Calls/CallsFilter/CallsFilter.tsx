@@ -2,9 +2,11 @@ import { Box } from '@mui/material'
 import CallsFilterSearch from './CallsFilterSearch'
 import { useTheme } from '@emotion/react'
 import CallsFilterSelect from './CallsFilterSelect'
+import CallsFilterSelectMultiple from './CallsFilterSelectMultiple'
 
 const CallsFilter = () => {
   const { colors } = useTheme()
+  const selectTypes = ['in_out', 'from_type[]', 'sources[]', 'errors[]']
 
   return (
     <Box
@@ -19,10 +21,13 @@ const CallsFilter = () => {
     >
       <CallsFilterSearch />
       <Box sx={{ display: 'flex', gap: '32px' }}>
-        <CallsFilterSelect type={'in_out'} />
-        <CallsFilterSelect type={'from_type[]'} />
-        <CallsFilterSelect type={'sources[]'} />
-        <CallsFilterSelect type={'errors[]'} />
+        {selectTypes.map((type, i) =>
+          type === 'in_out' ? (
+            <CallsFilterSelect type={type} key={i} />
+          ) : (
+            <CallsFilterSelectMultiple type={type} key={i} />
+          )
+        )}
       </Box>
     </Box>
   )

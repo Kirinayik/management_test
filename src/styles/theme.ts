@@ -12,6 +12,7 @@ export const theme = {
     'accent-active': '#274BC8',
     night: '#091336',
     green: '#00C294',
+    grey: '#ADBFDF',
     red: '#EA1A4F',
     yellow: '#FFD500',
     white: '#fff',
@@ -29,6 +30,7 @@ declare module '@emotion/react' {
       'accent-active': string
       night: string
       green: string
+      grey: string
       red: string
       white: string
       yellow: string

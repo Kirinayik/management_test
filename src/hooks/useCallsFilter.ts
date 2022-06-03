@@ -13,10 +13,10 @@ export const useCallsFilter = (type: string) => {
       return {
         defaultValue: 'Все звонки',
         items: [
-          { name: 'клиенты', value: 'clients' },
-          { name: 'новые клиенты', value: 'new_clients' },
-          { name: 'рабочие', value: 'workers' },
-          { name: 'приложение', value: 'app' },
+          { name: 'Клиенты', value: 'clients' },
+          { name: 'Новые клиенты', value: 'new_clients' },
+          { name: 'Рабочие', value: 'workers' },
+          { name: 'Приложение', value: 'app' },
         ],
       }
     }
@@ -24,10 +24,10 @@ export const useCallsFilter = (type: string) => {
       return {
         defaultValue: 'Все источники',
         items: [
-          { name: 'с сайта', value: 'from_site' },
-          { name: 'yandex номер', value: 'yandex' },
-          { name: 'google номер', value: 'google' },
-          { name: 'без источника', value: 'empty' },
+          { name: 'С сайта', value: 'from_site' },
+          { name: 'Yandex номер', value: 'yandex' },
+          { name: 'Google номер', value: 'google' },
+          { name: 'Без источника', value: 'empty' },
         ],
       }
     }
@@ -35,8 +35,8 @@ export const useCallsFilter = (type: string) => {
       return {
         defaultValue: 'Все ошибки',
         items: [
-          { name: 'без ошибок', value: 'noerrors' },
-          { name: 'скрипт не использован', value: 'noscript' },
+          { name: 'Без ошибок', value: 'noerrors' },
+          { name: 'Скрипт не использован', value: 'noscript' },
         ],
       }
     }

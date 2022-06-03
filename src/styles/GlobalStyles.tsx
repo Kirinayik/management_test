@@ -22,6 +22,11 @@ const GlobalStyles = () => {
           padding: 0;
         }
 
+        ul {
+          list-style: none;
+          margin: 0;
+        }
+
         body {
           font-size: 15px;
           line-height: 1.5;

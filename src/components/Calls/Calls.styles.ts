@@ -1,45 +1,94 @@
-import styled from '@emotion/styled'
-import { Select } from '@mui/material'
+import styled from '@emotion/styled/macro'
 
 type CallsListItemContainerProps = {
   isActive: boolean
 }
 
-type CallsFilterSelectButtonItemProps = {
+type CallsFilterSelectItemProps = {
   isActive: boolean
 }
 
-export const CallsFilterSelectButton = styled(Select)`
-  font-style: normal;
-  width: 180px;
+type CheckboxProps = {
+  checked: boolean
+}
+
+export const CheckboxContainer = styled.div<CheckboxProps>`
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  padding-right: 16px;
+`
+
+export const HiddenCheckbox = styled.input`
+  border: 0;
+  clip: rect(0 0 0 0);
+  clippath: inset(50%);
+  height: 1px;
+  margin: -1px;
   overflow: hidden;
-  & > div {
-    padding: 0 18px 0 0 !important;
-  }
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+`
+
+export const StyledCheckbox = styled.div<CheckboxProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  border: 2px solid
+    ${(props) =>
+      !props.checked ? props.theme.colors.grey : props.theme.colors.accent};
+  border-radius: 4px;
+  background: ${(props) =>
+    !props.checked ? 'transparent' : props.theme.colors.accent};
 
   & > svg {
-    font-size: 24px;
-  }
-
-  & fieldset {
-    border: 0;
-  }
-
-  & .MuiSvgIcon-root {
-    font-size: 18px;
-    right: 0;
+    font-size: 16px;
+    color: ${(props) => props.theme.colors.white};
+    visibility: ${(props) => (props.checked ? 'visible' : 'hidden')};
   }
 `
 
-export const CallsFilterSelectButtonItem = styled.div<CallsFilterSelectButtonItemProps>`
+export const CallsFilterSelectContainer = styled.ul`
+  padding: 0;
+  position: absolute;
+  z-index: 1000;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #eaf0fa;
+  border-radius: 4px;
+  background: ${(props) => props.theme.colors.white};
+  box-shadow: 0 0 26px rgba(233, 237, 243, 0.8);
+`
+
+export const CallsFilterSelectItem = styled.li<CallsFilterSelectItemProps>`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 15px;
   color: ${(props) =>
     props.isActive ? props.theme.colors.accent : props.theme.colors.secondary};
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  padding: 0;
-  &:first-letter {
-    text-transform: uppercase;
+  padding: 15px 20px;
+  user-select: none;
+
+  &:hover {
+    background: rgba(0, 95, 248, 0.13);
+    color: ${(props) => props.theme.colors.primary};
+
+    ${StyledCheckbox} {
+      border: 2px solid ${(props) => props.theme.colors.accent};
+    }
+  }
+
+  & > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `
 

@@ -25,8 +25,8 @@ export interface IMenu {
 export type SearchFilter = {
   in_out: string
   search: string
-  'from_type[]': string
-  'sources[]': string
-  'errors[]': string
+  'from_type[]': string[]
+  'sources[]': string[]
+  'errors[]': string[]
   date_start: number
 }

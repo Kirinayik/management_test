@@ -8,7 +8,7 @@ const Calls = () => {
     <Box
       sx={{
         flexGrow: 1,
-        overflowY: 'auto',
+        overflowY: 'scroll',
         background: '#F1F4F9',
         height: '100vh',
       }}

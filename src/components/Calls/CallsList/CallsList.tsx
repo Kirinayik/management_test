@@ -5,11 +5,7 @@ import CallsListItem from './CallsListItem'
 import { useAppSelector } from '../../../store/hooks'
 import { useEffect, useState } from 'react'
 import { $api } from '../../../http'
-import {
-  callsSelectors,
-  setList,
-  updateList,
-} from '../../../store/calls/callsState'
+import { callsSelectors, setList, updateList } from '../../../store/calls/callsState'
 import { useDispatch } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroller'
 import { callsNext } from '../../../helpers/callsNext'
@@ -60,6 +56,8 @@ const CallsList = () => {
       setFetching(false)
     }
   }
+
+  console.log('render')
 
   return (
     <Box

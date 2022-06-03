@@ -10,9 +10,9 @@ const initialState: ISearchState = {
   filters: {
     in_out: '',
     search: '',
-    'from_type[]': '',
-    'sources[]': '',
-    'errors[]': '',
+    'from_type[]': [],
+    'sources[]': [],
+    'errors[]': [],
     date_start: 1,
   },
   offset: 25,
@@ -27,7 +27,7 @@ export const searchSlice = createSlice({
     },
     setFilterSelect: (
       state,
-      action: PayloadAction<{ type: string; value: string }>
+      action: PayloadAction<{ type: string; value: string | string[] }>
     ) => {
       const { type, value } = action.payload
       // @ts-ignore
