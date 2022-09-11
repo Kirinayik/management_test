@@ -32,7 +32,7 @@ const Navbar = () => {
       paddingY={'20px'}
     >
       <Box paddingX={'12px'} sx={{ marginBottom: '32px', cursor: 'pointer' }}>
-        <img src={logo} alt={''} />
+        <img style={{maxHeight: '30px'}} src={logo} alt={''} />
       </Box>
       <List sx={{ marginBottom: '64px' }} disablePadding>
         {menu && menu.map((item, i) => <NavbarItem key={i} item={item} />)}
