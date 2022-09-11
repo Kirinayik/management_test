@@ -1,6 +1,6 @@
 {
   "homepage": ".",
-  "name": "skilla_test",
+  "name": "management_test",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
